@@ -67,7 +67,7 @@ public class FilmControllerTest {
         }
         film.setDescription(description);
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));
-        film.setDescription("Road movie");
+        film.setDescription("Romantic movie");
         film.setReleaseDate(LocalDate.of(1895, 12, 27));
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));
         film.setReleaseDate(LocalDate.of(2000, 2, 2));
