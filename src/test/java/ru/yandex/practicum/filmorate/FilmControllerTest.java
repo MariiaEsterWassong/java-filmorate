@@ -25,7 +25,7 @@ public class FilmControllerTest {
         Film film = new Film();
         film.setName("Name");
         film.setDescription("Road movie");
-        film.setReleaseDate(LocalDate.of(2000, 02, 02));
+        film.setReleaseDate(LocalDate.of(2000, 2, 2));
         film.setDuration(60);
         filmController.postFilm(film);
         List<Film> postedFilms = new ArrayList<>();
@@ -38,7 +38,7 @@ public class FilmControllerTest {
         Film film = new Film();
         film.setName("Name");
         film.setDescription("Road movie");
-        film.setReleaseDate(LocalDate.of(2000, 02, 02));
+        film.setReleaseDate(LocalDate.of(2000, 2, 2));
         film.setDuration(60);
         filmController.postFilm(film);
         int filmId = film.getId();
@@ -46,7 +46,7 @@ public class FilmControllerTest {
         updatedFilm.setId(filmId);
         updatedFilm.setName("New Name");
         updatedFilm.setDescription("Road movie");
-        updatedFilm.setReleaseDate(LocalDate.of(2000, 02, 02));
+        updatedFilm.setReleaseDate(LocalDate.of(2000, 2, 2));
         updatedFilm.setDuration(60);
         filmController.updateFilm(updatedFilm);
         Assertions.assertEquals(updatedFilm, filmController.getFilms().get(filmId));
@@ -57,7 +57,7 @@ public class FilmControllerTest {
         Film film = new Film();
         film.setName("");
         film.setDescription("Road movie");
-        film.setReleaseDate(LocalDate.of(2000, 02, 02));
+        film.setReleaseDate(LocalDate.of(2000, 2, 2));
         film.setDuration(60);
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));
         film.setName("Name");
@@ -70,7 +70,7 @@ public class FilmControllerTest {
         film.setDescription("Road movie");
         film.setReleaseDate(LocalDate.of(1895, 12, 27));
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));
-        film.setReleaseDate(LocalDate.of(2000, 02, 02));
+        film.setReleaseDate(LocalDate.of(2000, 2, 2));
         film.setDuration(-1);
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));
         film.setDuration(60);
