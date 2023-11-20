@@ -29,7 +29,7 @@ public class UserController {
     public User updateUser(@RequestBody User user) {
         log.info("PUT /users");
         if (user.getId() == null || !users.containsKey(user.getId())) {
-            String msg = "Не возможно обновить данные пользователя. Идентификатор не указан идентификатор или отсутствует в базе";
+            String msg = "Идентификатор не указан идентификатор или отсутствует в базе";
             log.error(msg);
             throw new ValidationException(msg);
         }

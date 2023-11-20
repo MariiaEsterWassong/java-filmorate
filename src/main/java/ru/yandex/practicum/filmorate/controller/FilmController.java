@@ -30,7 +30,7 @@ public class FilmController {
     public Film updateFilm(@RequestBody Film film) {
         log.info("PUT /films");
         if (film.getId() == null || !films.containsKey(film.getId())) {
-            String msg = "Не возможно обновить данные фильма. Идентификатор не указан или отсутствует в базе";
+            String msg = "Идентификатор не указан или отсутствует в базе";
             log.error(msg);
             throw new ValidationException(msg);
         }
