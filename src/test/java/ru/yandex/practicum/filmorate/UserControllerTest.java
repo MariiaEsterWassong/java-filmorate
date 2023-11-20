@@ -15,10 +15,12 @@ import java.util.List;
 @SpringBootTest
 public class UserControllerTest {
     private UserController userController;
+
     @BeforeEach
     public void setUp() {
         userController = new UserController();
     }
+
     @Test
     public void returnUsers_shouldReturnListOfUsers() {
         User user = new User();
@@ -31,6 +33,7 @@ public class UserControllerTest {
         postedUsers.add(user);
         Assertions.assertEquals(postedUsers, userController.returnUsers());
     }
+
     @Test
     public void updateUser_shouldValidateAndUpdateUser() {
         User user = new User();
@@ -49,6 +52,7 @@ public class UserControllerTest {
         userController.updateUser(updatedUser);
         Assertions.assertEquals(updatedUser, userController.getUsers().get(userId));
     }
+
     @Test
     public void postUser_shouldValidateUserAndAddToMap() {
         User user = new User();

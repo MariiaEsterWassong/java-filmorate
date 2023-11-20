@@ -18,11 +18,13 @@ public class UserController {
     @Getter
     private final Map<Integer, User> users = new HashMap<>();
     private int generatorId = 0;
+
     @GetMapping("/users")
     public List<User> returnUsers() {
         log.info("GET /users");
         return new ArrayList<>(users.values());
     }
+
     @PutMapping("/users")
     public User updateUser(@RequestBody User user) {
         log.info("PUT /users");
@@ -35,6 +37,7 @@ public class UserController {
         users.put(user.getId(), user);
         return user;
     }
+
     @PostMapping("/users")
     public User postUser(@RequestBody User user) {
         log.info("POST /users");
@@ -43,6 +46,7 @@ public class UserController {
         users.put(user.getId(), user);
         return user;
     }
+
     private static void validate(User user) {
         if (user.getName() == null) {
             user.setName(user.getLogin());

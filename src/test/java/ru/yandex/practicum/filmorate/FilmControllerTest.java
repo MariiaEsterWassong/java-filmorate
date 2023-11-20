@@ -14,10 +14,12 @@ import java.util.*;
 @SpringBootTest
 public class FilmControllerTest {
     private FilmController filmController;
+
     @BeforeEach
     public void setUp() {
         filmController = new FilmController();
     }
+
     @Test
     public void returnUsers_shouldReturnListOfUsers() {
         Film film = new Film();
@@ -30,6 +32,7 @@ public class FilmControllerTest {
         postedFilms.add(film);
         Assertions.assertEquals(postedFilms, filmController.returnFilms());
     }
+
     @Test
     public void updateFilm_shouldValidateAndUpdateFilm() {
         Film film = new Film();
@@ -48,6 +51,7 @@ public class FilmControllerTest {
         filmController.updateFilm(updatedFilm);
         Assertions.assertEquals(updatedFilm, filmController.getFilms().get(filmId));
     }
+
     @Test
     public void postFilm_shouldValidateFilmAndAddToMap() {
         Film film = new Film();
