@@ -19,13 +19,11 @@ public class FilmController {
     @Getter
     private final Map<Integer, Film> films = new HashMap<>();
     private int generatorId = 0;
-
     @GetMapping("/films")
     public List<Film> returnFilms() {
         log.info("GET /films");
         return new ArrayList<>(films.values());
     }
-
     @PutMapping("/films")
     public Film updateFilm(@RequestBody Film film) {
         log.info("PUT /films");
@@ -38,7 +36,6 @@ public class FilmController {
         films.put(film.getId(), film);
         return film;
     }
-
     @PostMapping("/films")
     public Film postFilm(@RequestBody Film film) {
         log.info("POST /films");
@@ -47,7 +44,6 @@ public class FilmController {
         films.put(film.getId(), film);
         return film;
     }
-
     private static void validate(Film film) {
         if ("".equals(film.getName())) {
             String msg = "Название фильма не может быть пустым";
