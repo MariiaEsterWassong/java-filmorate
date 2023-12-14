@@ -54,7 +54,7 @@ public class FilmControllerTest {
         updatedFilm.setReleaseDate(LocalDate.of(2000, 2, 2));
         updatedFilm.setDuration(60);
         filmController.updateFilm(updatedFilm);
-        Assertions.assertEquals(updatedFilm, filmController.returnFilms().get(filmId));
+        Assertions.assertEquals(updatedFilm, filmController.returnFilms().get(filmId - 1));
     }
 
     @Test

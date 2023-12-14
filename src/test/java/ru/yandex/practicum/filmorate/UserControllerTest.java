@@ -52,7 +52,7 @@ public class UserControllerTest {
         updatedUser.setName("Name");
         updatedUser.setBirthday(LocalDate.of(2000, 2, 2));
         userController.updateUser(updatedUser);
-        Assertions.assertEquals(updatedUser, userController.returnUsers().get(userId));
+        Assertions.assertEquals(updatedUser, userController.returnUsers().get(userId - 1));
     }
 
     @Test
