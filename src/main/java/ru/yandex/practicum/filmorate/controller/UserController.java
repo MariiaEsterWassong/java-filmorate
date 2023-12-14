@@ -1,33 +1,27 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.util.ValidationUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller class for managing users.
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 public class UserController {
-    /**
-     * Map to store users with their unique identifiers.
-     */
-    @Getter
-    private final Map<Integer, User> users = new HashMap<>();
 
     /**
-     * Variable to generate unique identifiers for users.
+     * Service responsible for user-related operations.
      */
-    private int generatorId = 0;
+    private final UserService userService;
 
     /**
      * Retrieves a list of users.
@@ -37,7 +31,7 @@ public class UserController {
     @GetMapping("/users")
     public List<User> returnUsers() {
         log.info("GET /users");
-        return new ArrayList<>(users.values());
+        return new ArrayList<>(userService.getAll());
     }
 
     /**
@@ -50,14 +44,8 @@ public class UserController {
     @PutMapping("/users")
     public User updateUser(@RequestBody User user) {
         log.info("PUT /users");
-        if (user.getId() == null || !users.containsKey(user.getId())) {
-            String msg = "Идентификатор не указан идентификатор или отсутствует в базе";
-            log.error(msg);
-            throw new ValidationException(msg);
-        }
         ValidationUtils.validateUser(user);
-        users.put(user.getId(), user);
-        return user;
+        return userService.update(user);
     }
 
     /**
@@ -70,9 +58,70 @@ public class UserController {
     public User postUser(@RequestBody User user) {
         log.info("POST /users");
         ValidationUtils.validateUser(user);
-        user.setId(++generatorId);
-        users.put(user.getId(), user);
-        return user;
+        return userService.save(user);
+    }
+
+    /**
+     * Retrieves a user by ID.
+     *
+     * @param id The ID of the user.
+     * @return The user with the specified ID.
+     */
+    @GetMapping("/users/{id}")
+    public User returnUser(@PathVariable("id") Integer id) {
+        log.info("GET /users/{id}");
+        return userService.getById(id);
+    }
+
+    /**
+     * Adds a friend to a user.
+     *
+     * @param id       The ID of the user.
+     * @param friendId The ID of the friend to be added.
+     * @return The user with the updated friends list.
+     */
+    @PutMapping("/users/{id}/friends/{friendId}")
+    public User addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+        log.info("PUT /users/{id}/friends/{friendId}");
+        return userService.addFriend(id, friendId);
+    }
+
+    /**
+     * Deletes a friend from a user.
+     *
+     * @param id       The ID of the user.
+     * @param friendId The ID of the friend to be deleted.
+     * @return The user with the updated friends list.
+     */
+    @DeleteMapping("/users/{id}/friends/{friendId}")
+    public User deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+        log.info("DELETE /users/{id}/friends/{friendId}");
+        return userService.deleteFriend(id, friendId);
+    }
+
+    /**
+     * Retrieves a list of friends for a user.
+     *
+     * @param id The ID of the user.
+     * @return List of friends for the specified user.
+     */
+    @GetMapping("/users/{id}/friends")
+    public List<User> returnFriends(@PathVariable("id") Integer id) {
+        log.info("GET /users/{id}/friends");
+        return userService.returnFriends(id);
+    }
+
+    /**
+     * Retrieves a list of common friends between two users.
+     *
+     * @param id      The ID of the first user.
+     * @param otherId The ID of the second user.
+     * @return List of common friends.
+     */
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    List<User> returnCommonFriends(@PathVariable("id") Integer id, @PathVariable("otherId") Integer otherId) {
+        log.info("GET /users/{id}/friends/common/{otherId}");
+        return userService.returnCommonFriends(id, otherId);
     }
 }
 
