@@ -11,9 +11,9 @@ public class Film {
     private Integer id;
     private String name;
     private String description;
-    LocalDate releaseDate;
-    int duration;
-    Set<Integer> likes = new HashSet<>();
+    private LocalDate releaseDate;
+    private int duration;
+    private Set<Integer> likes = new HashSet<>();
 
     public int getNumberOfLikes() {
         return likes.size();
