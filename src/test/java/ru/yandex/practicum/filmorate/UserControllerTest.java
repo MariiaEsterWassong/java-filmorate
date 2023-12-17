@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        userController = new UserController();
+        userController = new UserController(new UserService(new InMemoryUserStorage()));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class UserControllerTest {
         updatedUser.setName("Name");
         updatedUser.setBirthday(LocalDate.of(2000, 2, 2));
         userController.updateUser(updatedUser);
-        Assertions.assertEquals(updatedUser, userController.getUsers().get(userId));
+        Assertions.assertEquals(updatedUser, userController.returnUsers().get(userId - 1));
     }
 
     @Test

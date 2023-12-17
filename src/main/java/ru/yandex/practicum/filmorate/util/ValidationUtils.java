@@ -51,7 +51,7 @@ public final class ValidationUtils {
      * @throws ValidationException If validation fails.
      */
     public static void validateUser(User user) {
-        if (user.getName() == null) {
+        if ("".equals(user.getName())) {
             user.setName(user.getLogin());
         }
         if ("".equals(user.getEmail()) || !user.getEmail().contains("@")) {

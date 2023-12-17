@@ -7,17 +7,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 import java.util.*;
 
+
 @SpringBootTest
 public class FilmControllerTest {
+
     private FilmController filmController;
 
     @BeforeEach
     public void setUp() {
-        filmController = new FilmController();
+        filmController = new FilmController(new FilmService(new InMemoryFilmStorage(), new InMemoryUserStorage()));
     }
 
     @Test
@@ -49,7 +54,7 @@ public class FilmControllerTest {
         updatedFilm.setReleaseDate(LocalDate.of(2000, 2, 2));
         updatedFilm.setDuration(60);
         filmController.updateFilm(updatedFilm);
-        Assertions.assertEquals(updatedFilm, filmController.getFilms().get(filmId));
+        Assertions.assertEquals(updatedFilm, filmController.returnFilms().get(filmId - 1));
     }
 
     @Test
