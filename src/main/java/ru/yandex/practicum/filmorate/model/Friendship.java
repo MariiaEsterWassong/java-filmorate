@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class Friendship {
     private int id;
-    private int id_friend;
+    private int idFriend;
 }

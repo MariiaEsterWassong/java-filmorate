@@ -22,7 +22,7 @@ public class FriendshipDbStorage implements FriendshipStorage {
                 "values (?, ?)";
         jdbcTemplate.update(sqlQuery,
                 friendship.getId(),
-                friendship.getId_friend());
+                friendship.getIdFriend());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FriendshipDbStorage implements FriendshipStorage {
         String sqlQuery = "delete from friendship where id = ? AND id_friend = ?";
         jdbcTemplate.update(sqlQuery,
                 friendship.getId(),
-                friendship.getId_friend());
+                friendship.getIdFriend());
     }
 
     private static RowMapper<Friendship> getFriendshipMapper() {
@@ -44,7 +44,7 @@ public class FriendshipDbStorage implements FriendshipStorage {
     private static Map<String, Object> friendshipToMap(Friendship friendship) {
         return Map.of(
                 "id", friendship.getId(),
-                "id_friend", friendship.getId_friend()
+                "id_friend", friendship.getIdFriend()
         );
     }
 }
