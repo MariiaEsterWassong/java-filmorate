@@ -51,6 +51,7 @@ class LikeDbStorageTest {
                 .usingRecursiveComparison()
                 .isEqualTo(film);
     }
+
     @Test
     public void testDeleteLike() {
         Film film = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, null));
@@ -80,16 +81,15 @@ class LikeDbStorageTest {
 
         User user = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
         userDbStorage.save(user);
-        User user_2 = new User(2, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
+        User userNumberTwo = new User(2, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
         userDbStorage.save(user);
 
         Like like = new Like(1,1);
-        Like like_2 = new Like(1,2);
-        Like like_3 = new Like(2,2);
+        Like likeNumberTwo = new Like(1,2);
+        Like likeNumberThree = new Like(2,2);
         likeDbStorage.saveLike(like);
-        likeDbStorage.saveLike(like_2);
-        likeDbStorage.saveLike(like_3);
-
+        likeDbStorage.saveLike(likeNumberTwo);
+        likeDbStorage.saveLike(likeNumberThree);
         List <Film> mostLikedFilmsDb = filmDbStorage.getMostLikedFilms(10);
         System.out.println(mostLikedFilmsDb.toString());
         System.out.println(mostLikedFilms.toString());
