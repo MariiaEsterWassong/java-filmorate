@@ -46,13 +46,13 @@ public class FilmDbStorage implements FilmStorage {
         String sqlQuery = "update film set " +
                 "name = ?, description = ?, releaseDate = ?, duration = ?, id_mpa = ? " +
                 "where id = ?";
-        jdbcTemplate.update(sqlQuery
-                , film.getName()
-                , film.getDescription()
-                , film.getReleaseDate()
-                , film.getDuration()
-                , film.getMpa().getId()
-                , film.getId());
+        jdbcTemplate.update(sqlQuery,
+                film.getName(),
+                film.getDescription(),
+                film.getReleaseDate(),
+                film.getDuration(),
+                film.getMpa().getId(),
+                film.getId());
 
         if (film.getGenres() != null) {
             GenreDbStorage genreDbStorage = new GenreDbStorage(jdbcTemplate);
