@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
@@ -15,6 +16,7 @@ import ru.yandex.practicum.filmorate.storage.db.FilmDbStorage;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @JdbcTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -27,6 +29,7 @@ class FilmDbStorageTest {
         filmStorage = new FilmDbStorage(jdbcTemplate);
     }
 
+    @DirtiesContext
     @Test
     public void testFindAllFilms() {
         List<Film> filmsToSave = new ArrayList<>();
@@ -46,6 +49,7 @@ class FilmDbStorageTest {
                 .isEqualTo(filmsToSave);
     }
 
+    @DirtiesContext
     @Test
     public void testFindFilmById() {
         List<Genre> genres = new ArrayList<>();
@@ -62,6 +66,7 @@ class FilmDbStorageTest {
                 .isEqualTo(newFilm);
     }
 
+    @DirtiesContext
     @Test
     public void testSaveFilm() {
         List<Genre> genres = new ArrayList<>();
@@ -77,7 +82,7 @@ class FilmDbStorageTest {
                 .usingRecursiveComparison()
                 .isEqualTo(newFilm);
     }
-
+    @DirtiesContext
     @Test
     public void testUpdateFilm() {
         List<Genre> genresNumberOne = new ArrayList<>();

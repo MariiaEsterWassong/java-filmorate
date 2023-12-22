@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.model.*;
 import ru.yandex.practicum.filmorate.storage.db.FriendshipDbStorage;
 import ru.yandex.practicum.filmorate.storage.db.UserDbStorage;
@@ -30,6 +31,7 @@ class FriendshipDbStorageTest {
         userDbStorage = new UserDbStorage(jdbcTemplate);
     }
 
+    @DirtiesContext
     @Test
     public void testSaveFriendship() {
         User user = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
@@ -47,6 +49,7 @@ class FriendshipDbStorageTest {
                 .isEqualTo(friend);
     }
 
+    @DirtiesContext
     @Test
     public void testDeleteFriendship() {
 

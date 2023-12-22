@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.model.*;
 import ru.yandex.practicum.filmorate.storage.db.FilmDbStorage;
 import ru.yandex.practicum.filmorate.storage.db.LikeDbStorage;
@@ -27,6 +28,7 @@ class LikeDbStorageTest {
     private FilmDbStorage filmDbStorage;
     private UserDbStorage userDbStorage;
 
+    @DirtiesContext
     @BeforeEach
     public void setUp() {
 
@@ -35,6 +37,7 @@ class LikeDbStorageTest {
         userDbStorage = new UserDbStorage(jdbcTemplate);
     }
 
+    @DirtiesContext
     @Test
     public void testSaveLike() {
         List<Genre> genres = new ArrayList<>();
@@ -52,6 +55,7 @@ class LikeDbStorageTest {
                 .isEqualTo(film);
     }
 
+    @DirtiesContext
     @Test
     public void testDeleteLike() {
         Film film = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, null));
@@ -67,6 +71,7 @@ class LikeDbStorageTest {
                 is(empty());
     }
 
+    @DirtiesContext
     @Test
     public void testGetMostLikedFilms() {
         List<Film> mostLikedFilms = new ArrayList<>();

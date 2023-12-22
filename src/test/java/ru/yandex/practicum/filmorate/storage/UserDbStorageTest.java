@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.yandex.practicum.filmorate.model.User;
 
 import  org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -25,6 +26,7 @@ class UserDbStorageTest {
         userStorage = new UserDbStorage(jdbcTemplate);
     }
 
+    @DirtiesContext
     @Test
     public void testFindUserById() {
         User newUser = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
@@ -38,6 +40,7 @@ class UserDbStorageTest {
                 .isEqualTo(newUser);
     }
 
+    @DirtiesContext
     @Test
     public void testUpdateUser() {
 
