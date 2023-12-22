@@ -31,12 +31,12 @@ class FilmDbStorageTest {
     public void testFindAllFilms() {
         List<Film> filmsToSave = new ArrayList<>();
         List<Genre> genres = new ArrayList<>();
-        Film film_1 = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
-        Film film_2 = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres);
-        filmsToSave.add(film_1);
-        filmsToSave.add(film_2);
-        filmStorage.save(film_1);
-        filmStorage.save(film_2);
+        Film filmNumberOne = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
+        Film filmNumberTwo = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres);
+        filmsToSave.add(filmNumberOne);
+        filmsToSave.add(filmNumberTwo);
+        filmStorage.save(filmNumberOne);
+        filmStorage.save(filmNumberTwo);
 
         List<Film> savedFilms = filmStorage.getAll();
 
@@ -80,17 +80,17 @@ class FilmDbStorageTest {
 
     @Test
     public void testUpdateFilm() {
-        List<Genre> genres_1 = new ArrayList<>();
-        genres_1.add(new Genre(1, "Комедия"));
-        genres_1.add(new Genre(2, "Драма"));
+        List<Genre> genresNumberOne = new ArrayList<>();
+        genresNumberOne.add(new Genre(1, "Комедия"));
+        genresNumberOne.add(new Genre(2, "Драма"));
 
-        Film newFilm = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres_1);
+        Film newFilm = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genresNumberOne);
         filmStorage.save(newFilm);
-        List<Genre> genres_2 = new ArrayList<>();
-        genres_2.add(new Genre(1, "Комедия"));
-        genres_2.add(new Genre(2, "Драма"));
-        genres_2.add(new Genre(3, "Мультфильм"));
-        Film filmToUpdate = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres_2);
+        List<Genre> genresNumberTwo = new ArrayList<>();
+        genresNumberTwo.add(new Genre(1, "Комедия"));
+        genresNumberTwo.add(new Genre(2, "Драма"));
+        genresNumberTwo.add(new Genre(3, "Мультфильм"));
+        Film filmToUpdate = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genresNumberTwo);
 
         filmStorage.update(filmToUpdate);
 

@@ -71,12 +71,12 @@ class LikeDbStorageTest {
         List<Film> mostLikedFilms = new ArrayList<>();
         List<Genre> genres = new ArrayList<>();
         Film film = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
-        Film film_2 = new Film(2, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres);
+        Film filmNumberTwo = new Film(2, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres);
         mostLikedFilms.add(film);
-        mostLikedFilms.add(film_2);
+        mostLikedFilms.add(filmNumberTwo);
 
         filmDbStorage.save(film);
-        filmDbStorage.save(film_2);
+        filmDbStorage.save(filmNumberTwo);
 
         User user = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
         userDbStorage.save(user);
