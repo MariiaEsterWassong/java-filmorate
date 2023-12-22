@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Like;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.LikeStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service class for handling film-related operations.
@@ -22,6 +22,7 @@ public class FilmService {
 
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+    private final LikeStorage likeStorage;
 
     /**
      * Adds a like to a film.
@@ -31,7 +32,7 @@ public class FilmService {
      * @return The film with the updated like information.
      * @throws NotFoundException If the film or user with the specified IDs is not found.
      */
-    public Film addLike(int filmId, int userId) {
+    public void addLike(int filmId, int userId) {
         if (filmStorage.getById(filmId) == null) {
             String msg = String.format("Фильма с id =%d нет", filmId);
             log.warn(msg);
@@ -42,9 +43,7 @@ public class FilmService {
             log.warn(msg);
             throw new NotFoundException(msg);
         }
-        Film film = filmStorage.getById(filmId);
-        film.getLikes().add(userId);
-        return film;
+        likeStorage.saveLike(new Like(filmId, userId));
     }
 
     /**
@@ -55,7 +54,7 @@ public class FilmService {
      * @return The film with the updated like information.
      * @throws NotFoundException If the film or user with the specified IDs is not found.
      */
-    public Film deleteLike(int filmId, int userId) {
+    public void deleteLike(int filmId, int userId) {
         if (filmStorage.getById(filmId) == null) {
             String msg = String.format("Фильма с id =%d нет", filmId);
             log.warn(msg);
@@ -66,9 +65,7 @@ public class FilmService {
             log.warn(msg);
             throw new NotFoundException(msg);
         }
-        Film film = filmStorage.getById(filmId);
-        film.getLikes().remove(userId);
-        return film;
+        likeStorage.deleteLike(new Like(filmId, userId));
     }
 
     /**
@@ -79,10 +76,7 @@ public class FilmService {
      */
     public List<Film> returnMostLikedFilms(int count) {
 
-        return filmStorage.getAll().stream()
-                .sorted(Comparator.comparing((Film::getNumberOfLikes), Comparator.reverseOrder()))
-                .limit(count)
-                .collect(Collectors.toList());
+        return filmStorage.getMostLikedFilms(count);
     }
 
     /**
@@ -122,5 +116,6 @@ public class FilmService {
      */
     public Film getById(int id) {
         return filmStorage.getById(id);
+
     }
 }

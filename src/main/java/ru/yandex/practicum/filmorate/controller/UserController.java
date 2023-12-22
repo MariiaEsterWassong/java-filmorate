@@ -81,9 +81,9 @@ public class UserController {
      * @return The user with the updated friends list.
      */
     @PutMapping("/users/{id}/friends/{friendId}")
-    public User addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+    public void addFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         log.info("PUT /users/{id}/friends/{friendId}");
-        return userService.addFriend(id, friendId);
+        userService.addFriend(id, friendId);
     }
 
     /**
@@ -94,9 +94,10 @@ public class UserController {
      * @return The user with the updated friends list.
      */
     @DeleteMapping("/users/{id}/friends/{friendId}")
-    public User deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
+    public void deleteFriend(@PathVariable("id") Integer id, @PathVariable("friendId") Integer friendId) {
         log.info("DELETE /users/{id}/friends/{friendId}");
-        return userService.deleteFriend(id, friendId);
+        userService.deleteFriend(id, friendId);
+
     }
 
     /**

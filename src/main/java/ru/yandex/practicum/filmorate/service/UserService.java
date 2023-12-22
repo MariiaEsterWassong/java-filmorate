@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.Friendship;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.FriendshipStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Service class for handling user-related operations.
@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserStorage userStorage;
+    private final FriendshipStorage friendshipStorage;
+
 
     /**
      * Adds a friend to a user.
@@ -30,7 +32,7 @@ public class UserService {
      * @return The user with the updated friends list.
      * @throws NotFoundException If the user or friend with the specified IDs is not found.
      */
-    public User addFriend(int id, int friendId) {
+    public void addFriend(int id, int friendId) {
         if (userStorage.getById(id) == null) {
             String msg = String.format("Пользователя с id =%d нет", id);
             log.warn(msg);
@@ -41,11 +43,9 @@ public class UserService {
             log.warn(msg);
             throw new NotFoundException(msg);
         }
-        User user = userStorage.getById(id);
-        User friend = userStorage.getById(friendId);
-        user.getFriends().add(friendId);
-        friend.getFriends().add(id);
-        return user;
+        friendshipStorage.saveFriendship(new Friendship(id, friendId));
+
+
     }
 
     /**
@@ -56,7 +56,7 @@ public class UserService {
      * @return The user with the updated friends list.
      * @throws NotFoundException If the user or friend with the specified IDs is not found.
      */
-    public User deleteFriend(int id, int friendId) {
+    public void deleteFriend(int id, int friendId) {
         if (userStorage.getById(id) == null) {
             String msg = String.format("Пользователя с id =%d нет", id);
             log.warn(msg);
@@ -67,11 +67,8 @@ public class UserService {
             log.warn(msg);
             throw new NotFoundException(msg);
         }
-        User user = userStorage.getById(id);
-        user.getFriends().remove(friendId);
-        User friend = userStorage.getById(friendId);
-        friend.getFriends().remove(id);
-        return user;
+
+        friendshipStorage.deleteFriendship(new Friendship(id, friendId));
     }
 
     /**
@@ -82,18 +79,12 @@ public class UserService {
      * @throws NotFoundException If the user with the specified ID is not found.
      */
     public List<User> returnFriends(int id) {
-        List<User> friends = new ArrayList<>();
         if (userStorage.getById(id) == null) {
             String msg = String.format("Пользователя с id =%d нет", id);
             log.warn(msg);
             throw new NotFoundException(msg);
         }
-        User user = userStorage.getById(id);
-        friends = user.getFriends().stream()
-                .map(userStorage::getById)
-                .collect(Collectors.toList());
-
-        return friends;
+        return userStorage.getAllFriends(id);
     }
 
     /**
@@ -117,11 +108,10 @@ public class UserService {
         }
 
         List<User> commonFriends = new ArrayList<>();
-        Set<Integer> userFriends = userStorage.getById(id).getFriends();
-        Set<Integer> otherUserFriends = userStorage.getById(otherId).getFriends();
+        List<User> userFriends = userStorage.getAllFriends(id);
+        List<User> otherUserFriends = userStorage.getAllFriends(otherId);
         userFriends.stream()
                 .filter(otherUserFriends::contains)
-                .map(userStorage::getById)
                 .forEach(commonFriends::add);
 
         return commonFriends;
@@ -143,6 +133,7 @@ public class UserService {
      * @return The updated user.
      */
     public User update(User user) {
+
         return userStorage.update(user);
     }
 
@@ -163,6 +154,11 @@ public class UserService {
      * @return The user with the specified ID.
      */
     public User getById(int id) {
+        if (userStorage.getById(id) == null) {
+            String msg = "Идентификатор не указан или отсутствует в базе";
+            log.error(msg);
+            throw new NotFoundException(msg);
+        }
         return userStorage.getById(id);
     }
 }

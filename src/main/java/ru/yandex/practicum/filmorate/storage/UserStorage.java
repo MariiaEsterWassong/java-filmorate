@@ -38,4 +38,12 @@ public interface UserStorage {
      * @return The user with the specified ID.
      */
     User getById(int id);
+
+    /**
+     * Retrieves a list of friends for a user with the specified ID.
+     *
+     * @param id The ID of the user.
+     * @return List of friends for the user with the specified ID.
+     */
+    List<User> getAllFriends(int id);
 }

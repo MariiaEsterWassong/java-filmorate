@@ -1,10 +1,11 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.inmemory;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +60,11 @@ public class InMemoryFilmStorage implements FilmStorage {
             throw new NotFoundException(msg);
         }
         return films.get(id);
+    }
+
+    @Override
+    public List<Film> getMostLikedFilms(int count) {
+        return null;
     }
 }
 
