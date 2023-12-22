@@ -68,7 +68,7 @@ class LikeDbStorageTest {
     }
 
     @Test
-    public void TestGetMostLikedFilms() {
+    public void testGetMostLikedFilms() {
         List<Film> mostLikedFilms = new ArrayList<>();
         List<Genre> genres = new ArrayList<>();
         Film film = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
@@ -90,7 +90,7 @@ class LikeDbStorageTest {
         likeDbStorage.saveLike(like);
         likeDbStorage.saveLike(likeNumberTwo);
         likeDbStorage.saveLike(likeNumberThree);
-        List <Film> mostLikedFilmsDb = filmDbStorage.getMostLikedFilms(10);
+        List<Film> mostLikedFilmsDb = filmDbStorage.getMostLikedFilms(10);
         System.out.println(mostLikedFilmsDb.toString());
         System.out.println(mostLikedFilms.toString());
 
