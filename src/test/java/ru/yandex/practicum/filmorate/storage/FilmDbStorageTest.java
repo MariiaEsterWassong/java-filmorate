@@ -20,14 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class FilmDbStorageTest {
     private final JdbcTemplate jdbcTemplate;
-
     private FilmDbStorage filmStorage;
 
     @BeforeEach
     public void setUp() {
         filmStorage = new FilmDbStorage(jdbcTemplate);
     }
-
 
     @Test
     public void testFindAllFilms() {
@@ -69,7 +67,7 @@ class FilmDbStorageTest {
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(1, "Комедия"));
         genres.add(new Genre(2, "Драма"));
-        // Подготавливаем данные для теста
+
         Film newFilm = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
 
         filmStorage.save(newFilm);
@@ -82,14 +80,17 @@ class FilmDbStorageTest {
 
     @Test
     public void testUpdateFilm() {
-        List<Genre> genres = new ArrayList<>();
-        genres.add(new Genre(1, "Комедия"));
-        genres.add(new Genre(2, "Драма"));
+        List<Genre> genres_1 = new ArrayList<>();
+        genres_1.add(new Genre(1, "Комедия"));
+        genres_1.add(new Genre(2, "Драма"));
 
-        Film newFilm = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres);
+        Film newFilm = new Film(1, "name","description", LocalDate.of(1990, 1, 1), 60, new Mpa(1, "G"), genres_1);
         filmStorage.save(newFilm);
-        List<Genre> emptyGenres = new ArrayList<>();
-        Film filmToUpdate = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), emptyGenres);
+        List<Genre> genres_2 = new ArrayList<>();
+        genres_2.add(new Genre(1, "Комедия"));
+        genres_2.add(new Genre(2, "Драма"));
+        genres_2.add(new Genre(3, "Мультфильм"));
+        Film filmToUpdate = new Film(1, "updated name","updated description", LocalDate.of(1991, 2, 2), 61, new Mpa(1, "G"), genres_2);
 
         filmStorage.update(filmToUpdate);
 

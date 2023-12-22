@@ -60,7 +60,6 @@ class LikeDbStorageTest {
         Like like = new Like(1,1);
         likeDbStorage.saveLike(like);
 
-
         likeDbStorage.deleteLike(like);
 
         Assertions.assertThat(filmDbStorage.getMostLikedFilms(1));
@@ -91,11 +90,9 @@ class LikeDbStorageTest {
         likeDbStorage.saveLike(like_2);
         likeDbStorage.saveLike(like_3);
 
-
         List <Film> mostLikedFilmsDb = filmDbStorage.getMostLikedFilms(10);
         System.out.println(mostLikedFilmsDb.toString());
         System.out.println(mostLikedFilms.toString());
-
 
         Assertions.assertThat(mostLikedFilmsDb)
                 .isNotNull()

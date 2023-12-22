@@ -30,7 +30,6 @@ class FriendshipDbStorageTest {
         userDbStorage = new UserDbStorage(jdbcTemplate);
     }
 
-
     @Test
     public void testSaveFriendship() {
         User user = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
@@ -49,7 +48,7 @@ class FriendshipDbStorageTest {
     }
 
     @Test
-    public void testDeleteLike() {
+    public void testDeleteFriendship() {
 
         User user = new User(1, "user@email.ru", "vanya123", "Ivan Petrov", LocalDate.of(1990, 1, 1));
         userDbStorage.save(user);

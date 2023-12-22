@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -54,23 +55,28 @@ public class GenreDbStorage implements GenreStorage {
     @Override
     public void insertFilmGenres(Film film) {
         if (!film.getGenres().isEmpty()) {
-            List<Genre> genres = new ArrayList<>();
-            for (Genre genre : (film.getGenres())) genres.add(genre);
+            List<Genre> genresToUpdate = new ArrayList<>();
+            for (Genre genre : (film.getGenres())) {
+                genresToUpdate.add(genre);
+            }
+            log.info("получаем список жанров фильма для обновления базы из обьекта " + genresToUpdate.toString());
+            deleteFilmGenresByFilmId(film.getId());
+            List<Genre> genresToInsert = genresToUpdate.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
             String sql = "insert into film_genre (id_film, id_genre)  VALUES (?, ?);";
             jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     ps.setInt(1, film.getId());
-                    ps.setInt(2, genres.get(i).getId());
+                    ps.setInt(2, genresToInsert.get(i).getId());
                 }
 
                 @Override
                 public int getBatchSize() {
-                    return genres.size();
+                    return genresToInsert.size();
                 }
             });
-
-
         } else {
             deleteFilmGenresByFilmId(film.getId());
         }

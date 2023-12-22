@@ -58,7 +58,8 @@ public class FilmDbStorage implements FilmStorage {
             GenreDbStorage genreDbStorage = new GenreDbStorage(jdbcTemplate);
             genreDbStorage.insertFilmGenres(film);
         }
-        return film;
+
+        return getById(film.getId());
     }
 
     @Override
