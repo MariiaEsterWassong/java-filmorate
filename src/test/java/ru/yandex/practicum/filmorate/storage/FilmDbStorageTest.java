@@ -82,6 +82,7 @@ class FilmDbStorageTest {
                 .usingRecursiveComparison()
                 .isEqualTo(newFilm);
     }
+
     @DirtiesContext
     @Test
     public void testUpdateFilm() {
