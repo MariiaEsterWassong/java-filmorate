@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
-import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.inmemory.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.inmemory.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.db.LikeDbStorage;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -22,7 +24,7 @@ public class FilmControllerTest {
 
     @BeforeEach
     public void setUp() {
-        filmController = new FilmController(new FilmService(new InMemoryFilmStorage(), new InMemoryUserStorage()));
+        filmController = new FilmController(new FilmService(new InMemoryFilmStorage(), new InMemoryUserStorage(), new LikeDbStorage(new JdbcTemplate())));
     }
 
     @Test
@@ -68,7 +70,7 @@ public class FilmControllerTest {
         film.setName("Name");
         String description = "";
         while (description.length() < 201) {
-            description += "a";
+            description =  description + "a";
         }
         film.setDescription(description);
         Assertions.assertThrows(ValidationException.class, () -> filmController.postFilm(film));

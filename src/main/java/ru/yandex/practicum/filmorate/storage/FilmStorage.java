@@ -38,4 +38,12 @@ public interface FilmStorage {
      * @return The film with the specified ID.
      */
     Film getById(int id);
+
+    /**
+     * Retrieves a list of the most liked films.
+     *
+     * @param count The maximum number of films to retrieve.
+     * @return List of the most liked films, limited by the specified count.
+     */
+    List<Film> getMostLikedFilms(int count);
 }
